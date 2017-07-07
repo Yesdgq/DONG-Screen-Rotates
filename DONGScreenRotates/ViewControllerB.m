@@ -13,10 +13,16 @@
 #import "ViewControllerD.h"
 #import <CoreMotion/CoreMotion.h>
 
+
+#define FULLScreenFrame [UIScreen mainScreen].bounds
+#define PlayerWindowFrame CGRectMake(0, 20, 375, 200)
+
 @interface ViewControllerB ()
 
 @property (nonatomic, strong) CMMotionManager *motionManager;
-@property (weak, nonatomic) IBOutlet UIImageView *playerView; // 假装为播放器
+
+@property (weak, nonatomic) IBOutlet UIView *playerView;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 @end
 
@@ -25,13 +31,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // 注册UIApplicationDidChangeStatusBarOrientationNotification通知
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationChange:)name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-
-    // 注册UIDeviceOrientationDidChangeNotification通知
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange:)name:UIDeviceOrientationDidChangeNotification object:nil];
+    _playerView.frame = PlayerWindowFrame;
+    _imageView.frame = _playerView.bounds;
     
-    // 陀螺仪
+    // 注册statusBar方向监听通知
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationChange:)name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    
+    // 注册Device方向监听通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange:)name:UIDeviceOrientationDidChangeNotification object:nil];
+    
+    // 使用加速器
     [self cofigMotionManager];
     
 }
@@ -78,22 +87,25 @@
 
 - (IBAction)popSelf:(id)sender
 {
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)fullScreen:(id)sender
 {
-    if ([PlayerViewRotate isOrientationLandscape]) {
-        [PlayerViewRotate forceOrientation:UIInterfaceOrientationPortrait];
-    } else {
-        [PlayerViewRotate forceOrientation:UIInterfaceOrientationLandscapeRight];
-    }
+    [self getDeviceOrientation];
+    
+//    if ([PlayerViewRotate isOrientationLandscape]) {
+//        [PlayerViewRotate forceOrientation:UIInterfaceOrientationPortrait];
+//    } else {
+//        [PlayerViewRotate forceOrientation:UIInterfaceOrientationLandscapeRight];
+//    }
 }
 
 // 是否支持屏幕旋转
 - (BOOL)shouldAutorotate
 {
-    return YES;
+    return NO;
 }
 
 // 支持设备旋转方向
@@ -105,6 +117,7 @@
 #pragma mark - 设备方向变化的监听
 
 // 这种方式里面的方向还包括朝上或者朝下，很容易看出这个完全是根据设备自身的物理方向得来的，当我们关注的只是物理朝向时，我们通常需要注册该通知来解决问题（另外还有一个加速计的api，可以实现类似的功能，该api较底层，在上面两个方法能够解决问题的情况下建议不要用，使用不当性能损耗非常大）。
+// 即使所在VC不支持旋转，当设备发生旋转时，仍然能监听到该方法，但是却不会监听到statusBar旋转的方法
 - (void)orientChange:(NSNotification *)noti
 {
     UIDeviceOrientation  orient = [UIDevice currentDevice].orientation;
@@ -117,22 +130,43 @@
      UIDeviceOrientationFaceUp,              // Device oriented flat, face up
      UIDeviceOrientationFaceDown             // Device oriented flat, face down   */
     
+    // 以设备头即听筒的指向为标识
     switch (orient)
     {
         case UIDeviceOrientationPortrait:
             NSLog(@"Home键-->下");
-            
+            if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
+                [self viewTransformRotate:-M_PI_2 frame:PlayerWindowFrame statusBarOrientation:UIInterfaceOrientationPortrait];
+            }
+            if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
+                [self viewTransformRotate:M_PI_2 frame:PlayerWindowFrame statusBarOrientation:UIInterfaceOrientationPortrait];
+            }
             break;
         case UIDeviceOrientationLandscapeLeft:
-            
+        {
             NSLog(@"Home键-->右");
+            if ([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationPortrait) {
+                [self getDeviceOrientation];
+            }
+            if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
+                [self viewTransformRotate:M_PI statusBarOrientation:UIInterfaceOrientationLandscapeRight];
+            }
+        }
             break;
         case UIDeviceOrientationPortraitUpsideDown:
-            
             NSLog(@"Home键-->上");
+            
             break;
         case UIDeviceOrientationLandscapeRight:
+        {
             NSLog(@"Home键-->左");
+            if ([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationPortrait) {
+                [self getDeviceOrientation];
+            }
+            if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
+                [self viewTransformRotate:M_PI statusBarOrientation:UIInterfaceOrientationLandscapeLeft];
+            }
+        }
             
             break;
             
@@ -147,6 +181,7 @@
 - (void)statusBarOrientationChange:(NSNotification *)notification
 {
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    // 以Home键为标识
     if (orientation == UIInterfaceOrientationLandscapeRight) { // home键靠右
         NSLog(@"状态栏-->左");
     }
@@ -162,29 +197,97 @@
 }
 
 
-#pragma mark - 陀螺仪
+#pragma mark - 加速器
 
 - (void)cofigMotionManager
 {
-    // 1. 创建
-    self.motionManager = [[CMMotionManager alloc] init];
-    // 2. 判断是否可用
-    if (!self.motionManager.isAccelerometerAvailable) {
-        return;
+    // pull方式 仅在点击旋转按钮的时候才需要判断力的朝向，所以选择了 pull 方式，节省资源
+    // 初始化全局管理对象
+    CMMotionManager *manager = [[CMMotionManager alloc] init];
+    self.motionManager = manager;
+    // 判断加速度计可不可用，判断加速度计是否开启
+    if ([manager isAccelerometerAvailable]) {
+        // 告诉manager，更新频率是100Hz
+    self.motionManager.gyroUpdateInterval = 0.1;
+    self.motionManager.accelerometerUpdateInterval = 0.1;
+        // 开始更新，后台线程开始运行。这是Pull方式。
+        [manager startAccelerometerUpdates];
     }
+    // 获取并处理加速度计数据
+    CMAccelerometerData *newestAccel = self.motionManager.accelerometerData;
+    NSLog(@"X = %.04f",newestAccel.acceleration.x);
+    NSLog(@"Y = %.04f",newestAccel.acceleration.y);
+    NSLog(@"Z = %.04f",newestAccel.acceleration.z);
+
+}
+
+// 通过加速器获取设备朝向
+- (void)getDeviceOrientation
+{
+    CMAcceleration acceleration = self.motionManager.accelerometerData.acceleration;
+    CGFloat xACC = acceleration.x; // x受力方向。
     
-    // pull 方式 由我们决定
-    [self.motionManager startAccelerometerUpdates];
+    NSLog(@"X = %.04f",acceleration.x);
+    NSLog(@"Y = %.04f",acceleration.y);
+    NSLog(@"Z = %.04f",acceleration.z);
     
-    // push 方式, 一直有
-    // 3. 设置间隔
-//        self.motionManager.gyroUpdateInterval = 1;
-//        self.motionManager.accelerometerUpdateInterval = 1;
-    // 4. 开始采样
-//        [self.motionManager startAccelerometerUpdatesToQueue:[[NSOperationQueue alloc] init] withHandler:^(CMAccelerometerData * _Nullable accelerometerData, NSError * _Nullable error) {
-//            CMAcceleration acceleration = accelerometerData.acceleration;
-//            NSLog(@"%.2f %.2f %.2f", acceleration.x, acceleration.y, acceleration.z);
-//        }];
+    if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) { // Home键在下
+        
+        if (xACC <= 0) {
+            NSLog(@"FULLScreenFrame--%@", NSStringFromCGRect(FULLScreenFrame));
+            [self viewTransformRotate:M_PI_2 frame:FULLScreenFrame statusBarOrientation:UIInterfaceOrientationLandscapeRight];
+        } else if (xACC > 0) {
+            NSLog(@"FULLScreenFrame--%@", NSStringFromCGRect(FULLScreenFrame));
+            [self viewTransformRotate:-M_PI_2 frame:FULLScreenFrame statusBarOrientation:UIInterfaceOrientationLandscapeLeft];
+        }
+        
+    } else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) { // 此时Home键在右-->旋转为小窗口
+        [self viewTransformRotate:-M_PI_2 frame:PlayerWindowFrame statusBarOrientation:UIInterfaceOrientationPortrait];
+        
+    } else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) { // 此时Home键在左-->旋转为小窗口
+        [self viewTransformRotate:M_PI_2 frame:PlayerWindowFrame statusBarOrientation:UIInterfaceOrientationPortrait];
+    }
+}
+
+#pragma mark - view旋转 transform
+
+// 旋转且改变frame
+- (void)viewTransformRotate:(CGFloat)pi
+                      frame:(CGRect)frame
+       statusBarOrientation:(UIInterfaceOrientation)orientation
+{
+    [UIApplication sharedApplication].statusBarHidden = YES;
+    [UIView animateWithDuration:[[UIApplication sharedApplication] statusBarOrientationAnimationDuration] animations:^{
+        CGAffineTransform transform = CGAffineTransformRotate(self.playerView.transform, pi);
+        self.playerView.transform = transform;
+        self.playerView.frame = frame;
+        _imageView.frame = _playerView.bounds;
+        
+    } completion:^(BOOL finished) {
+        
+        [UIApplication sharedApplication].statusBarHidden = NO;
+        [[UIApplication sharedApplication] setStatusBarOrientation:orientation animated:NO];
+
+    }];
+}
+
+// 只做旋转 不改变frame
+- (void)viewTransformRotate:(CGFloat)pi
+       statusBarOrientation:(UIInterfaceOrientation)orientation
+{
+
+    [UIApplication sharedApplication].statusBarHidden = YES;
+    [UIView animateWithDuration:[[UIApplication sharedApplication] statusBarOrientationAnimationDuration] animations:^{
+        CGAffineTransform transform = CGAffineTransformRotate(self.playerView.transform, pi);
+        self.playerView.transform = transform;
+        _imageView.frame = _playerView.bounds;
+        
+    } completion:^(BOOL finished) {
+        
+        [UIApplication sharedApplication].statusBarHidden = NO;
+        [[UIApplication sharedApplication] setStatusBarOrientation:orientation animated:NO];
+
+    }];
 }
 
 /*
