@@ -9,12 +9,17 @@
 /* Begin PBXBuildFile section */
 		111541441F0CC99700F77E1B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 111541431F0CC99700F77E1B /* main.m */; };
 		111541471F0CC99700F77E1B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 111541461F0CC99700F77E1B /* AppDelegate.m */; };
-		1115414A1F0CC99700F77E1B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 111541491F0CC99700F77E1B /* ViewController.m */; };
+		1115414A1F0CC99700F77E1B /* ViewControllerA.m in Sources */ = {isa = PBXBuildFile; fileRef = 111541491F0CC99700F77E1B /* ViewControllerA.m */; };
 		1115414D1F0CC99700F77E1B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1115414B1F0CC99700F77E1B /* Main.storyboard */; };
 		1115414F1F0CC99700F77E1B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1115414E1F0CC99700F77E1B /* Assets.xcassets */; };
 		111541521F0CC99700F77E1B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 111541501F0CC99700F77E1B /* LaunchScreen.storyboard */; };
 		1115415D1F0CC99700F77E1B /* DONGScreenRotatesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1115415C1F0CC99700F77E1B /* DONGScreenRotatesTests.m */; };
 		111541681F0CC99700F77E1B /* DONGScreenRotatesUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 111541671F0CC99700F77E1B /* DONGScreenRotatesUITests.m */; };
+		111541771F0CCC1E00F77E1B /* ViewControllerB.m in Sources */ = {isa = PBXBuildFile; fileRef = 111541761F0CCC1E00F77E1B /* ViewControllerB.m */; };
+		1115417A1F0CCC2C00F77E1B /* ViewControllerC.m in Sources */ = {isa = PBXBuildFile; fileRef = 111541791F0CCC2C00F77E1B /* ViewControllerC.m */; };
+		11275AA91F0CE4E400C35B67 /* PlayerViewRotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11275AA81F0CE4E400C35B67 /* PlayerViewRotate.m */; };
+		11714C9A1F0F23430074AFC2 /* ViewControllerD.m in Sources */ = {isa = PBXBuildFile; fileRef = 11714C991F0F23430074AFC2 /* ViewControllerD.m */; };
+		11DC951B1F0E3E4D005B908F /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11DC951A1F0E3E4D005B908F /* BaseNavigationController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,8 +44,8 @@
 		111541431F0CC99700F77E1B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		111541451F0CC99700F77E1B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		111541461F0CC99700F77E1B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		111541481F0CC99700F77E1B /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		111541491F0CC99700F77E1B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		111541481F0CC99700F77E1B /* ViewControllerA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewControllerA.h; sourceTree = "<group>"; };
+		111541491F0CC99700F77E1B /* ViewControllerA.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewControllerA.m; sourceTree = "<group>"; };
 		1115414C1F0CC99700F77E1B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1115414E1F0CC99700F77E1B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		111541511F0CC99700F77E1B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +56,16 @@
 		111541631F0CC99700F77E1B /* DONGScreenRotatesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DONGScreenRotatesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		111541671F0CC99700F77E1B /* DONGScreenRotatesUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DONGScreenRotatesUITests.m; sourceTree = "<group>"; };
 		111541691F0CC99700F77E1B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		111541751F0CCC1E00F77E1B /* ViewControllerB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerB.h; sourceTree = "<group>"; };
+		111541761F0CCC1E00F77E1B /* ViewControllerB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerB.m; sourceTree = "<group>"; };
+		111541781F0CCC2C00F77E1B /* ViewControllerC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerC.h; sourceTree = "<group>"; };
+		111541791F0CCC2C00F77E1B /* ViewControllerC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerC.m; sourceTree = "<group>"; };
+		11275AA71F0CE4E400C35B67 /* PlayerViewRotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerViewRotate.h; sourceTree = "<group>"; };
+		11275AA81F0CE4E400C35B67 /* PlayerViewRotate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerViewRotate.m; sourceTree = "<group>"; };
+		11714C981F0F23430074AFC2 /* ViewControllerD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerD.h; sourceTree = "<group>"; };
+		11714C991F0F23430074AFC2 /* ViewControllerD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerD.m; sourceTree = "<group>"; };
+		11DC95191F0E3E4D005B908F /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
+		11DC951A1F0E3E4D005B908F /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,9 +118,19 @@
 			children = (
 				111541451F0CC99700F77E1B /* AppDelegate.h */,
 				111541461F0CC99700F77E1B /* AppDelegate.m */,
-				111541481F0CC99700F77E1B /* ViewController.h */,
-				111541491F0CC99700F77E1B /* ViewController.m */,
 				1115414B1F0CC99700F77E1B /* Main.storyboard */,
+				11DC95191F0E3E4D005B908F /* BaseNavigationController.h */,
+				11DC951A1F0E3E4D005B908F /* BaseNavigationController.m */,
+				111541481F0CC99700F77E1B /* ViewControllerA.h */,
+				111541491F0CC99700F77E1B /* ViewControllerA.m */,
+				111541751F0CCC1E00F77E1B /* ViewControllerB.h */,
+				111541761F0CCC1E00F77E1B /* ViewControllerB.m */,
+				111541781F0CCC2C00F77E1B /* ViewControllerC.h */,
+				111541791F0CCC2C00F77E1B /* ViewControllerC.m */,
+				11714C981F0F23430074AFC2 /* ViewControllerD.h */,
+				11714C991F0F23430074AFC2 /* ViewControllerD.m */,
+				11275AA71F0CE4E400C35B67 /* PlayerViewRotate.h */,
+				11275AA81F0CE4E400C35B67 /* PlayerViewRotate.m */,
 				1115414E1F0CC99700F77E1B /* Assets.xcassets */,
 				111541501F0CC99700F77E1B /* LaunchScreen.storyboard */,
 				111541531F0CC99700F77E1B /* Info.plist */,
@@ -276,9 +301,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1115414A1F0CC99700F77E1B /* ViewController.m in Sources */,
+				1115414A1F0CC99700F77E1B /* ViewControllerA.m in Sources */,
+				11DC951B1F0E3E4D005B908F /* BaseNavigationController.m in Sources */,
+				1115417A1F0CCC2C00F77E1B /* ViewControllerC.m in Sources */,
+				11275AA91F0CE4E400C35B67 /* PlayerViewRotate.m in Sources */,
+				111541771F0CCC1E00F77E1B /* ViewControllerB.m in Sources */,
 				111541471F0CC99700F77E1B /* AppDelegate.m in Sources */,
 				111541441F0CC99700F77E1B /* main.m in Sources */,
+				11714C9A1F0F23430074AFC2 /* ViewControllerD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,6 +546,7 @@
 				1115416E1F0CC99700F77E1B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1115416F1F0CC99700F77E1B /* Build configuration list for PBXNativeTarget "DONGScreenRotatesTests" */ = {
 			isa = XCConfigurationList;
@@ -524,6 +555,7 @@
 				111541711F0CC99700F77E1B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		111541721F0CC99700F77E1B /* Build configuration list for PBXNativeTarget "DONGScreenRotatesUITests" */ = {
 			isa = XCConfigurationList;
@@ -532,6 +564,7 @@
 				111541741F0CC99700F77E1B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

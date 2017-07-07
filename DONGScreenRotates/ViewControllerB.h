@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  ViewControllerB.h
 //  DONGScreenRotates
 //
 //  Created by yesdgq on 2017/7/5.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface ViewControllerB : UIViewController
 
 @end
-
