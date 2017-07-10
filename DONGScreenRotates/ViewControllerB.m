@@ -24,6 +24,8 @@
 @property (weak, nonatomic) IBOutlet UIView *playerView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
+@property (nonatomic, assign) BOOL viewIsRotating;
+
 @end
 
 @implementation ViewControllerB
@@ -35,7 +37,7 @@
     _imageView.frame = _playerView.bounds;
     
     // 注册statusBar方向监听通知
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationChange:)name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationChange:)name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     
     // 注册Device方向监听通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange:)name:UIDeviceOrientationDidChangeNotification object:nil];
@@ -93,13 +95,13 @@
 
 - (IBAction)fullScreen:(id)sender
 {
-    [self getDeviceOrientation];
+    [self AutomaticallyRotateByDeviceOrientation];
     
-//    if ([PlayerViewRotate isOrientationLandscape]) {
-//        [PlayerViewRotate forceOrientation:UIInterfaceOrientationPortrait];
-//    } else {
-//        [PlayerViewRotate forceOrientation:UIInterfaceOrientationLandscapeRight];
-//    }
+    //    if ([PlayerViewRotate isOrientationLandscape]) {
+    //        [PlayerViewRotate forceOrientation:UIInterfaceOrientationPortrait];
+    //    } else {
+    //        [PlayerViewRotate forceOrientation:UIInterfaceOrientationLandscapeRight];
+    //    }
 }
 
 // 是否支持屏幕旋转
@@ -134,21 +136,23 @@
     switch (orient)
     {
         case UIDeviceOrientationPortrait:
-            NSLog(@"Home键-->下");
-            if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
+            if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight && _viewIsRotating != YES) {
+                NSLog(@"Home键-->下1111");
                 [self viewTransformRotate:-M_PI_2 frame:PlayerWindowFrame statusBarOrientation:UIInterfaceOrientationPortrait];
-            }
-            if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
+            } else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft && _viewIsRotating != YES) {
+                NSLog(@"Home键-->下2222");
                 [self viewTransformRotate:M_PI_2 frame:PlayerWindowFrame statusBarOrientation:UIInterfaceOrientationPortrait];
             }
             break;
         case UIDeviceOrientationLandscapeLeft:
         {
-            NSLog(@"Home键-->右");
-            if ([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationPortrait) {
-                [self getDeviceOrientation];
-            }
-            if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
+            if ([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationPortrait && _viewIsRotating != YES) {
+                NSLog(@"Home键-->右1111");
+                
+                [self viewTransformRotate:M_PI_2 frame:FULLScreenFrame statusBarOrientation:UIInterfaceOrientationLandscapeRight];
+                
+            } else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft && _viewIsRotating != YES) {
+                NSLog(@"Home键-->右2222");
                 [self viewTransformRotate:M_PI statusBarOrientation:UIInterfaceOrientationLandscapeRight];
             }
         }
@@ -159,15 +163,16 @@
             break;
         case UIDeviceOrientationLandscapeRight:
         {
-            NSLog(@"Home键-->左");
-            if ([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationPortrait) {
-                [self getDeviceOrientation];
-            }
-            if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
+            if ([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationPortrait && _viewIsRotating != YES) {
+                NSLog(@"Home键-->左1111");
+                
+                [self viewTransformRotate:-M_PI_2 frame:FULLScreenFrame statusBarOrientation:UIInterfaceOrientationLandscapeLeft];
+                
+            } else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight && _viewIsRotating != YES) {
+                NSLog(@"Home键-->左2222");
                 [self viewTransformRotate:M_PI statusBarOrientation:UIInterfaceOrientationLandscapeLeft];
             }
         }
-            
             break;
             
         default:
@@ -208,8 +213,8 @@
     // 判断加速度计可不可用，判断加速度计是否开启
     if ([manager isAccelerometerAvailable]) {
         // 告诉manager，更新频率是100Hz
-    self.motionManager.gyroUpdateInterval = 0.1;
-    self.motionManager.accelerometerUpdateInterval = 0.1;
+        self.motionManager.gyroUpdateInterval = 0.1;
+        self.motionManager.accelerometerUpdateInterval = 0.1;
         // 开始更新，后台线程开始运行。这是Pull方式。
         [manager startAccelerometerUpdates];
     }
@@ -218,18 +223,18 @@
     NSLog(@"X = %.04f",newestAccel.acceleration.x);
     NSLog(@"Y = %.04f",newestAccel.acceleration.y);
     NSLog(@"Z = %.04f",newestAccel.acceleration.z);
-
+    
 }
 
-// 通过加速器获取设备朝向
-- (void)getDeviceOrientation
+// 根据设备朝向通过transform旋转
+- (void)AutomaticallyRotateByDeviceOrientation
 {
     CMAcceleration acceleration = self.motionManager.accelerometerData.acceleration;
     CGFloat xACC = acceleration.x; // x受力方向。
     
-    NSLog(@"X = %.04f",acceleration.x);
-    NSLog(@"Y = %.04f",acceleration.y);
-    NSLog(@"Z = %.04f",acceleration.z);
+    //    NSLog(@"X = %.04f",acceleration.x);
+    //    NSLog(@"Y = %.04f",acceleration.y);
+    //    NSLog(@"Z = %.04f",acceleration.z);
     
     if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) { // Home键在下
         
@@ -246,6 +251,7 @@
         
     } else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) { // 此时Home键在左-->旋转为小窗口
         [self viewTransformRotate:M_PI_2 frame:PlayerWindowFrame statusBarOrientation:UIInterfaceOrientationPortrait];
+        
     }
 }
 
@@ -256,6 +262,7 @@
                       frame:(CGRect)frame
        statusBarOrientation:(UIInterfaceOrientation)orientation
 {
+    _viewIsRotating = YES;
     [UIApplication sharedApplication].statusBarHidden = YES;
     [UIView animateWithDuration:[[UIApplication sharedApplication] statusBarOrientationAnimationDuration] animations:^{
         CGAffineTransform transform = CGAffineTransformRotate(self.playerView.transform, pi);
@@ -264,10 +271,10 @@
         _imageView.frame = _playerView.bounds;
         
     } completion:^(BOOL finished) {
-        
         [UIApplication sharedApplication].statusBarHidden = NO;
         [[UIApplication sharedApplication] setStatusBarOrientation:orientation animated:NO];
-
+        _viewIsRotating = NO;
+        
     }];
 }
 
@@ -275,7 +282,7 @@
 - (void)viewTransformRotate:(CGFloat)pi
        statusBarOrientation:(UIInterfaceOrientation)orientation
 {
-
+    _viewIsRotating = YES;
     [UIApplication sharedApplication].statusBarHidden = YES;
     [UIView animateWithDuration:[[UIApplication sharedApplication] statusBarOrientationAnimationDuration] animations:^{
         CGAffineTransform transform = CGAffineTransformRotate(self.playerView.transform, pi);
@@ -286,7 +293,8 @@
         
         [UIApplication sharedApplication].statusBarHidden = NO;
         [[UIApplication sharedApplication] setStatusBarOrientation:orientation animated:NO];
-
+        _viewIsRotating = NO;
+        
     }];
 }
 
