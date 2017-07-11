@@ -21,7 +21,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.navigationBar.hidden = YES;
+    //    self.navigationBar.hidden = YES;
     
     // built-in pop recognizer
     UIGestureRecognizer *recognizer = self.interactivePopGestureRecognizer;
@@ -45,11 +45,6 @@
 
 - (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer
 {
-//    return self.viewControllers.count > 1 && ![[self valueForKey:@"_isTransitioning"] boolValue] && [gestureRecognizer translationInView:gestureRecognizer.view].x > 0;
-    
-    // 当要popto的页面为登录或注册页时 不返回
-    //    DONG_Log(@"viewControllers -->%@",self.viewControllers);
-    //    DONG_Log(@"即将返回到的页面VC-->%@",self.childViewControllers[self.viewControllers.count-2]);
     return self.viewControllers.count > 1 && ![[self valueForKey:@"_isTransitioning"] boolValue] && [gestureRecognizer translationInView:gestureRecognizer.view].x > 0;
 }
 

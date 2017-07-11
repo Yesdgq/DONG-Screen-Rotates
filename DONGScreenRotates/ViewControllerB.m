@@ -123,7 +123,6 @@
 - (void)orientChange:(NSNotification *)noti
 {
     UIDeviceOrientation  orient = [UIDevice currentDevice].orientation;
-
     // 以设备头即听筒的指向为标识
     switch (orient)
     {

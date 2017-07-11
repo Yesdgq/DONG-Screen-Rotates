@@ -31,7 +31,7 @@
     return YES;
 }
 
-// 设备旋转时回调支持的方向
+// 旋转方向的支持
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {
     return UIInterfaceOrientationMaskLandscapeRight | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskPortrait;
