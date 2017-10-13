@@ -9,6 +9,7 @@
 #import "ViewControllerA.h"
 #import "ViewControllerB.h"
 #import "AppDelegate.h"
+#import "FullScreenVC.h"
 
 
 @interface ViewControllerA ()
@@ -21,6 +22,8 @@
     [super viewDidLoad];
     
     [UIDevice currentDevice];
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -35,24 +38,18 @@
     
 }
 
-- (IBAction)clickBtnA:(id)sender
-{
+- (IBAction)clickBtnA:(id)sender {
     ViewControllerB *vcB = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ViewControllerB"];
 //    [self presentViewController:vcB animated:YES completion:nil];
     [self.navigationController pushViewController:vcB animated:YES];
 }
 
-
-// 是否支持屏幕旋转
-- (BOOL)shouldAutorotate
-{
-    return NO;
+- (IBAction)pushFullScreen:(id)sender {
+    FullScreenVC *vcB = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"FullScreenVC"];
+//    [self.navigationController pushViewController:vcB animated:YES];
+    [self presentViewController:vcB animated:YES completion:nil];
 }
 
-// 支持设备旋转方向
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskPortrait;
-}
+
 
 @end

@@ -26,7 +26,7 @@
 + (BOOL)isOrientationLandscape {
     if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
         return YES;
-    }else {
+    } else {
         return NO;
     }
 }

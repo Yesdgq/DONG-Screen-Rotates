@@ -1,26 +1,20 @@
 //
-//  ViewControllerB.m
+//  FullScreenVC.m
 //  DONGScreenRotates
 //
-//  Created by yesdgq on 2017/7/5.
+//  Created by yesdgq on 2017/10/13.
 //  Copyright © 2017年 yesdgq. All rights reserved.
 //
 
-#import "ViewControllerB.h"
-#import "AppDelegate.h"
-#import "PlayerViewRotate.h"
-#import "ViewControllerC.h"
-#import "ViewControllerD.h"
+#import "FullScreenVC.h"
 #import <CoreMotion/CoreMotion.h>
 
-//#define FULLScreenFrame [UIScreen mainScreen].bounds
+
 #define FULLScreenFrame CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width)
 #define PlayerWindowFrame CGRectMake(0, 20, 375, 200)
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
-@interface ViewControllerB ()
+@interface FullScreenVC ()
 
 @property (nonatomic, strong) CMMotionManager *motionManager;
 
@@ -29,23 +23,17 @@
 
 @end
 
-@implementation ViewControllerB
-
+@implementation FullScreenVC
 {
     NSString *viewOriention;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    _playerView.frame = PlayerWindowFrame;
-    _imageView.frame = _playerView.bounds;
-    
     // 使用加速器
     [self cofigMotionManager];
     
-    // 状态栏起始位置
-    viewOriention = @"状态栏在上";
+    
     
 }
 
@@ -54,139 +42,40 @@
     [self.navigationController.navigationBar setHidden:YES];
     
     // 注册statusBar方向监听通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    viewOriention = @"状态栏在上";
+//    [self AutomaticallyRotateByDeviceOrientation];
+    // 状态栏起始位置
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:NO];
+    [self changeViewTransformWhenStatusBarOrientationChanged:UIInterfaceOrientationLandscapeRight];
 
-    // 注册Device方向监听通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:YES];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:YES];
     [self.navigationController.navigationBar setHidden:NO];
-    
+//    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    
-}
-
-- (void)dealloc {
-    
-}
-
-BOOL hidden = YES;
-- (IBAction)taptap:(id)sender {
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:hidden withAnimation:UIStatusBarAnimationSlide];
-    hidden = !hidden;
-    
+    // Dispose of any resources that can be recreated.
 }
 
 
-- (IBAction)pushVCC:(id)sender
-{
-    if ([PlayerViewRotate isOrientationLandscape]) {
-        [PlayerViewRotate forceOrientation:UIInterfaceOrientationPortrait];
-    }
-    
-    ViewControllerC *vcC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ViewControllerC"];
-    [self.navigationController pushViewController:vcC animated:YES];
-}
-
-- (IBAction)presentVCC:(id)sender
-{
-    if ([PlayerViewRotate isOrientationLandscape]) {
-        [PlayerViewRotate forceOrientation:UIInterfaceOrientationPortrait];
-    }
-    
-    ViewControllerC *vcC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ViewControllerC"];
-    [self presentViewController:vcC animated:YES completion:nil];
-    
-}
-
-- (IBAction)popSelf:(id)sender
-{
-    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO];
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (IBAction)fullScreen:(id)sender
-{
+- (IBAction)clickButton:(id)sender {
     [self AutomaticallyRotateByDeviceOrientation];
 }
 
-#pragma mark - 旋转设置
-
-// 是否支持屏幕旋转
-- (BOOL)shouldAutorotate
-{
-    return NO;
-}
-
-// 支持设备旋转方向
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskAll;
-}
-
-#pragma mark - 设备方向变化的监听
-
-// 即使所在VC不支持旋转，当设备发生旋转时，仍然能监听到该方法，但是却不会监听到statusBar旋转的方法
-- (void)orientChange:(NSNotification *)noti
-{
-    UIDeviceOrientation  orient = [UIDevice currentDevice].orientation;
-    // 以设备头即听筒的指向为标识
-    switch (orient)
-    {
-        case UIDeviceOrientationPortrait:
-        {
-            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO];
-        }
-            break;
-        case UIDeviceOrientationLandscapeLeft:
-        {
-            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:NO];
-            
-        }
-            break;
-        case UIDeviceOrientationPortraitUpsideDown:
-            
-            break;
-        case UIDeviceOrientationLandscapeRight:
-        {
-            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:NO];
-        }
-            break;
-            
-        default:
-            break;
-    }
-}
-
-#pragma mark - StatusBar变化的监听
-
-- (void)statusBarOrientationChange:(NSNotification *)notification
-{
-    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    // 以Home键为标识
-    if (orientation == UIInterfaceOrientationLandscapeRight) { // home键靠右
-        NSLog(@"状态栏-->左");
-        [self changeViewTransformWhenStatusBarOrientationChanged:orientation];
-    }
-    if (orientation ==UIInterfaceOrientationLandscapeLeft) { // home键靠左
-        NSLog(@"状态栏-->右");
-        [self changeViewTransformWhenStatusBarOrientationChanged:orientation];
-    }
-    if (orientation == UIInterfaceOrientationPortrait) { // home键靠下
-        NSLog(@"状态栏-->上");
-        [self changeViewTransformWhenStatusBarOrientationChanged:orientation];
-    }
-    if (orientation == UIInterfaceOrientationPortraitUpsideDown) { // home键靠上
-        NSLog(@"状态栏-->下");
-        [self changeViewTransformWhenStatusBarOrientationChanged:orientation];
-    }
+- (IBAction)dismiss:(id)sender {
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - 加速器
@@ -226,26 +115,50 @@ BOOL hidden = YES;
     if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) { // Home键在下
         
         if (xACC <= 0) {
-
             [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:NO];
             viewOriention = @"状态栏在左";
             
         } else if (xACC > 0) {
-
-             [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:NO];
+            
+            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:NO];
             viewOriention = @"状态栏在右";
         }
         
     } else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) { // 此时Home键在右-->旋转为小窗口
-
+        
         [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO];
         viewOriention = @"状态栏在上";
         
     } else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) { // 此时Home键在左-->旋转为小窗口
-       
+        
         [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO];
         viewOriention = @"状态栏在上";
         
+    }
+}
+
+
+#pragma mark - StatusBar变化的监听
+
+- (void)statusBarOrientationChange:(NSNotification *)notification
+{
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    // 以Home键为标识
+    if (orientation == UIInterfaceOrientationLandscapeRight) { // home键靠右
+        NSLog(@"状态栏-->左");
+        [self changeViewTransformWhenStatusBarOrientationChanged:orientation];
+    }
+    if (orientation ==UIInterfaceOrientationLandscapeLeft) { // home键靠左
+        NSLog(@"状态栏-->右");
+        [self changeViewTransformWhenStatusBarOrientationChanged:orientation];
+    }
+    if (orientation == UIInterfaceOrientationPortrait) { // home键靠下
+        NSLog(@"状态栏-->上");
+        [self changeViewTransformWhenStatusBarOrientationChanged:orientation];
+    }
+    if (orientation == UIInterfaceOrientationPortraitUpsideDown) { // home键靠上
+        NSLog(@"状态栏-->下");
+        [self changeViewTransformWhenStatusBarOrientationChanged:orientation];
     }
 }
 
@@ -313,23 +226,16 @@ BOOL hidden = YES;
     }];
 }
 
-// 只做旋转 不改变frame
-- (void)viewTransformRotate:(CGFloat)pi
+// 是否支持屏幕旋转
+- (BOOL)shouldAutorotate
 {
-    [UIApplication sharedApplication].statusBarHidden = YES;
-    [UIView animateWithDuration:[[UIApplication sharedApplication] statusBarOrientationAnimationDuration] animations:^{
-        CGAffineTransform transform = CGAffineTransformRotate(self.playerView.transform, pi);
-        self.playerView.transform = transform;
-        _imageView.frame = _playerView.bounds;
-        
-    } completion:^(BOOL finished) {
-        
-        [UIApplication sharedApplication].statusBarHidden = NO;
-        
-    }];
+    return NO;
 }
 
+// 支持设备旋转方向
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
 
 @end
-
-#pragma clang diagnostic pop

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		111315C81F9068EC008AB6B4 /* FullScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 111315C71F9068EC008AB6B4 /* FullScreenVC.m */; };
 		111541441F0CC99700F77E1B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 111541431F0CC99700F77E1B /* main.m */; };
 		111541471F0CC99700F77E1B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 111541461F0CC99700F77E1B /* AppDelegate.m */; };
 		1115414A1F0CC99700F77E1B /* ViewControllerA.m in Sources */ = {isa = PBXBuildFile; fileRef = 111541491F0CC99700F77E1B /* ViewControllerA.m */; };
@@ -40,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		111315C61F9068EC008AB6B4 /* FullScreenVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FullScreenVC.h; sourceTree = "<group>"; };
+		111315C71F9068EC008AB6B4 /* FullScreenVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FullScreenVC.m; sourceTree = "<group>"; };
 		1115413F1F0CC99700F77E1B /* DONGScreenRotates.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DONGScreenRotates.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		111541431F0CC99700F77E1B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		111541451F0CC99700F77E1B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -129,6 +132,8 @@
 				111541791F0CCC2C00F77E1B /* ViewControllerC.m */,
 				11714C981F0F23430074AFC2 /* ViewControllerD.h */,
 				11714C991F0F23430074AFC2 /* ViewControllerD.m */,
+				111315C61F9068EC008AB6B4 /* FullScreenVC.h */,
+				111315C71F9068EC008AB6B4 /* FullScreenVC.m */,
 				11275AA71F0CE4E400C35B67 /* PlayerViewRotate.h */,
 				11275AA81F0CE4E400C35B67 /* PlayerViewRotate.m */,
 				1115414E1F0CC99700F77E1B /* Assets.xcassets */,
@@ -227,7 +232,7 @@
 		111541371F0CC99700F77E1B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = yesdgq;
 				TargetAttributes = {
 					1115413E1F0CC99700F77E1B = {
@@ -302,6 +307,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1115414A1F0CC99700F77E1B /* ViewControllerA.m in Sources */,
+				111315C81F9068EC008AB6B4 /* FullScreenVC.m in Sources */,
 				11DC951B1F0E3E4D005B908F /* BaseNavigationController.m in Sources */,
 				1115417A1F0CCC2C00F77E1B /* ViewControllerC.m in Sources */,
 				11275AA91F0CE4E400C35B67 /* PlayerViewRotate.m in Sources */,
@@ -373,7 +379,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -381,7 +389,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -421,7 +433,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -429,7 +443,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
