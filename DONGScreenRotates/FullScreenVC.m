@@ -41,6 +41,7 @@
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar setHidden:YES];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotoFrontground) name:@"AppDidBecomeActive" object:nil];
     // 注册statusBar方向监听通知
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     viewOriention = @"状态栏在上";
@@ -224,6 +225,32 @@
         [UIApplication sharedApplication].statusBarHidden = NO;
         
     }];
+}
+
+#define kMainScreenWidth    [[UIScreen mainScreen] bounds].size.width
+#define kMainScreenHeight   [[UIScreen mainScreen] bounds].size.height
+
+#define SCREEN_MIN MIN(kMainScreenWidth, kMainScreenHeight)
+#define SCREEN_MAX MAX(kMainScreenWidth, kMainScreenHeight)
+
+#define DONG_Log(...) printf(" %s 🔴 第%d行: %s\n", [[NSString stringWithFormat:@"%s", __FILE__].lastPathComponent UTF8String] ,__LINE__, [[NSString stringWithFormat:__VA_ARGS__] UTF8String]);
+
+- (void)gotoFrontground {
+    [self.playerView removeFromSuperview];
+    UIView *playerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_MAX, SCREEN_MIN)];
+    playerView.center = self.view.center;
+    playerView.backgroundColor = [UIColor yellowColor];
+    UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Image"]];
+    iv.frame = playerView.bounds;
+    [playerView addSubview:iv];
+    
+    CGAffineTransform transform = CGAffineTransformRotate(playerView.transform, M_PI_2);
+    playerView.transform = transform;
+    
+    [self.view addSubview:playerView];
+    
+    DONG_Log(@"self.view.frame-->%@", NSStringFromCGRect(self.view.bounds));
+    DONG_Log(@"iv.frame-->%@", NSStringFromCGRect(iv.bounds));
 }
 
 // 是否支持屏幕旋转
