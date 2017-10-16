@@ -249,6 +249,7 @@
     
     [self.view addSubview:playerView];
     
+    
     DONG_Log(@"self.view.frame-->%@", NSStringFromCGRect(self.view.bounds));
     DONG_Log(@"iv.frame-->%@", NSStringFromCGRect(iv.bounds));
 }
