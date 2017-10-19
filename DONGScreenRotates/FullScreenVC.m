@@ -8,7 +8,7 @@
 
 #import "FullScreenVC.h"
 #import <CoreMotion/CoreMotion.h>
-
+#import "AppDelegate.h"
 
 #define FULLScreenFrame CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width)
 #define PlayerWindowFrame CGRectMake(0, 20, 375, 200)
@@ -31,24 +31,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // 使用加速器
-    [self cofigMotionManager];
+//    [self cofigMotionManager];
     
-    
-    
+    AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    appDelegate.landscape = YES;
+//
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController.navigationBar setHidden:YES];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotoFrontground) name:@"AppDidBecomeActive" object:nil];
-    // 注册statusBar方向监听通知
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-    viewOriention = @"状态栏在上";
-//    [self AutomaticallyRotateByDeviceOrientation];
-    // 状态栏起始位置
-    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:NO];
-    [self changeViewTransformWhenStatusBarOrientationChanged:UIInterfaceOrientationLandscapeRight];
+//    [self.navigationController.navigationBar setHidden:YES];
+//
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotoFrontground) name:@"AppDidBecomeActive" object:nil];
+//    // 注册statusBar方向监听通知
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+//    viewOriention = @"状态栏在上";
+////    [self AutomaticallyRotateByDeviceOrientation];
+//    // 状态栏起始位置
+//    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:NO];
+//    [self changeViewTransformWhenStatusBarOrientationChanged:UIInterfaceOrientationLandscapeRight];
 
 }
 
@@ -59,9 +60,9 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:YES];
-    [self.navigationController.navigationBar setHidden:NO];
+//    [self.navigationController.navigationBar setHidden:NO];
 //    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -71,11 +72,15 @@
 
 
 - (IBAction)clickButton:(id)sender {
-    [self AutomaticallyRotateByDeviceOrientation];
+//    [self AutomaticallyRotateByDeviceOrientation];
+    AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    appDelegate.landscape = NO;
+//    [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)dismiss:(id)sender {
-    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO];
+//    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -263,7 +268,7 @@
 // 支持设备旋转方向
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskAll;
+    return UIInterfaceOrientationMaskLandscape;
 }
 
 @end

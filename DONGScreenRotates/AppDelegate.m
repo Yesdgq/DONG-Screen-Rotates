@@ -11,6 +11,10 @@
 #import "ViewControllerB.h"
 #import "BaseNavigationController.h"
 
+
+#define DONG_Log(...) printf(" %s 🔴 第%d行: %s\n", [[NSString stringWithFormat:@"%s", __FILE__].lastPathComponent UTF8String] ,__LINE__, [[NSString stringWithFormat:__VA_ARGS__] UTF8String]);
+
+
 @interface AppDelegate ()
 
 @end
@@ -29,6 +33,18 @@
     
     
     return YES;
+}
+
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+    
+    if (_landscape) {
+        
+        return UIInterfaceOrientationMaskLandscape;
+        
+    }
+    
+    return UIInterfaceOrientationMaskPortrait;
+    
 }
 
 // 旋转方向的支持
@@ -60,6 +76,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    DONG_Log(@"=================");
 }
 
 
