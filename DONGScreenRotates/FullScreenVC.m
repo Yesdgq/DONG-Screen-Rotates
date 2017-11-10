@@ -10,6 +10,7 @@
 #import <CoreMotion/CoreMotion.h>
 #import "AppDelegate.h"
 
+
 #define FULLScreenFrame CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width)
 #define PlayerWindowFrame CGRectMake(0, 20, 375, 200)
 
@@ -35,7 +36,8 @@
     
     AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     appDelegate.landscape = YES;
-//
+    
+   
 }
 
 - (void)viewWillAppear:(BOOL)animated {

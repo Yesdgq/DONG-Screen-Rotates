@@ -12,6 +12,7 @@
 #import "ViewControllerC.h"
 #import "ViewControllerD.h"
 #import <CoreMotion/CoreMotion.h>
+#import "Dong_RunLabel.h"
 
 //#define FULLScreenFrame [UIScreen mainScreen].bounds
 #define FULLScreenFrame CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width)
@@ -46,6 +47,13 @@
     
     // 状态栏起始位置
     viewOriention = @"状态栏在上";
+    
+    
+    Dong_RunLabel *titleRunLabel = [[Dong_RunLabel alloc] init];
+    titleRunLabel.titleName = @"这是一个跑马灯这是一个跑马灯这是一个跑马灯";
+    titleRunLabel.titleColor = [UIColor redColor];
+    titleRunLabel.frame = CGRectMake(100, 300, 200, 30);
+    [self.view addSubview:titleRunLabel];
     
 }
 
@@ -114,7 +122,7 @@ BOOL hidden = YES;
 
 - (IBAction)fullScreen:(id)sender
 {
-    [self AutomaticallyRotateByDeviceOrientation];
+    [self automaticallyRotateByDeviceOrientation];
 }
 
 #pragma mark - 旋转设置
@@ -214,7 +222,7 @@ BOOL hidden = YES;
 }
 
 // 根据设备朝向通过transform旋转
-- (void)AutomaticallyRotateByDeviceOrientation
+- (void)automaticallyRotateByDeviceOrientation
 {
     CMAcceleration acceleration = self.motionManager.accelerometerData.acceleration;
     CGFloat xACC = acceleration.x; // x受力方向。

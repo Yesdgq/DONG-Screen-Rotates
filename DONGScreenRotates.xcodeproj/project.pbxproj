@@ -20,6 +20,7 @@
 		1115417A1F0CCC2C00F77E1B /* ViewControllerC.m in Sources */ = {isa = PBXBuildFile; fileRef = 111541791F0CCC2C00F77E1B /* ViewControllerC.m */; };
 		11275AA91F0CE4E400C35B67 /* PlayerViewRotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11275AA81F0CE4E400C35B67 /* PlayerViewRotate.m */; };
 		11714C9A1F0F23430074AFC2 /* ViewControllerD.m in Sources */ = {isa = PBXBuildFile; fileRef = 11714C991F0F23430074AFC2 /* ViewControllerD.m */; };
+		11C790E41FB1BB6C005ACA04 /* Dong_RunLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 11C790E21FB1BB6B005ACA04 /* Dong_RunLabel.m */; };
 		11DC951B1F0E3E4D005B908F /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11DC951A1F0E3E4D005B908F /* BaseNavigationController.m */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +68,8 @@
 		11275AA81F0CE4E400C35B67 /* PlayerViewRotate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerViewRotate.m; sourceTree = "<group>"; };
 		11714C981F0F23430074AFC2 /* ViewControllerD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerD.h; sourceTree = "<group>"; };
 		11714C991F0F23430074AFC2 /* ViewControllerD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerD.m; sourceTree = "<group>"; };
+		11C790E21FB1BB6B005ACA04 /* Dong_RunLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Dong_RunLabel.m; sourceTree = "<group>"; };
+		11C790E31FB1BB6C005ACA04 /* Dong_RunLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dong_RunLabel.h; sourceTree = "<group>"; };
 		11DC95191F0E3E4D005B908F /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
 		11DC951A1F0E3E4D005B908F /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -136,6 +139,8 @@
 				111315C71F9068EC008AB6B4 /* FullScreenVC.m */,
 				11275AA71F0CE4E400C35B67 /* PlayerViewRotate.h */,
 				11275AA81F0CE4E400C35B67 /* PlayerViewRotate.m */,
+				11C790E31FB1BB6C005ACA04 /* Dong_RunLabel.h */,
+				11C790E21FB1BB6B005ACA04 /* Dong_RunLabel.m */,
 				1115414E1F0CC99700F77E1B /* Assets.xcassets */,
 				111541501F0CC99700F77E1B /* LaunchScreen.storyboard */,
 				111541531F0CC99700F77E1B /* Info.plist */,
@@ -314,6 +319,7 @@
 				111541771F0CCC1E00F77E1B /* ViewControllerB.m in Sources */,
 				111541471F0CC99700F77E1B /* AppDelegate.m in Sources */,
 				111541441F0CC99700F77E1B /* main.m in Sources */,
+				11C790E41FB1BB6C005ACA04 /* Dong_RunLabel.m in Sources */,
 				11714C9A1F0F23430074AFC2 /* ViewControllerD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
