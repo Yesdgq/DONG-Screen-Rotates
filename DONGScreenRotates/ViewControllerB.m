@@ -14,6 +14,14 @@
 #import <CoreMotion/CoreMotion.h>
 #import "Dong_RunLabel.h"
 
+
+#ifdef DEBUG
+#define DONG_Log(...) printf("%s 🔴 第%d行: %s\n", [[NSString stringWithFormat:@"%s", __FILE__].lastPathComponent UTF8String] ,__LINE__, [[NSString stringWithFormat:__VA_ARGS__] UTF8String]);
+
+#else
+#define DONG_Log(...)
+#endif
+
 //#define FULLScreenFrame [UIScreen mainScreen].bounds
 #define FULLScreenFrame CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width)
 #define PlayerWindowFrame CGRectMake(0, 20, 375, 200)
@@ -47,7 +55,6 @@
     
     // 状态栏起始位置
     viewOriention = @"状态栏在上";
-    
     
     Dong_RunLabel *titleRunLabel = [[Dong_RunLabel alloc] init];
     titleRunLabel.titleName = @"这是一个跑马灯这是一个跑马灯这是一个跑马灯";
@@ -310,9 +317,18 @@ BOOL hidden = YES;
     [UIApplication sharedApplication].statusBarHidden = YES;
     [UIView animateWithDuration:[[UIApplication sharedApplication] statusBarOrientationAnimationDuration] animations:^{
         CGAffineTransform transform = CGAffineTransformRotate(self.playerView.transform, pi);
+        
+        DONG_Log(@"UIWindow.bound前-->%@", NSStringFromCGRect([UIScreen mainScreen].bounds));
+        DONG_Log(@"playerView前-->%@", NSStringFromCGRect(self.playerView.frame));
+        
         self.playerView.transform = transform;
         self.playerView.frame = frame;
         _imageView.frame = _playerView.bounds;
+
+        DONG_Log(@"frame-->%@", NSStringFromCGRect(frame));
+        DONG_Log(@"UIWindow.bound后-->%@", NSStringFromCGRect([UIScreen mainScreen].bounds));
+        DONG_Log(@"playerView后-->%@", NSStringFromCGRect(self.playerView.frame));
+        
         
     } completion:^(BOOL finished) {
         
