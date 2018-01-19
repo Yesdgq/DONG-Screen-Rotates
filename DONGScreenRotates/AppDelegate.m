@@ -34,6 +34,7 @@
     NSArray *Paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *path = [Paths objectAtIndex:0];
     DONG_Log(@"path-->%@", path);
+
     
     return YES;
 }
