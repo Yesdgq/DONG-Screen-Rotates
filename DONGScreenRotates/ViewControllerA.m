@@ -22,6 +22,7 @@
     [super viewDidLoad];
     
     [UIDevice currentDevice];
+    [self addRightBBI];
     
    
     
@@ -49,6 +50,22 @@
     FullScreenVC *vcB = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"FullScreenVC"];
 //    [self.navigationController pushViewController:vcB animated:YES];
     [self presentViewController:vcB animated:YES completion:nil];
+}
+
+- (void)addRightBBI {
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    btn.frame = CGRectMake(0, 0, 50, 30);
+    [btn setImage:[UIImage imageNamed:@"Image-1"] forState:UIControlStateNormal];
+    //    btn.backgroundColor = [UIColor redColor];
+//    [btn addTarget:self action:@selector(moreFunction) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:btn];
+    UIBarButtonItem *rightNegativeSpacer = [[UIBarButtonItem alloc]
+                                            initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                            target:nil action:nil];
+    rightNegativeSpacer.width = -30;
+    
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:rightNegativeSpacer, item, nil];
 }
 
 
